@@ -13,8 +13,14 @@
       </p>
       <hr>
       <dialog id = "contact-details">
-        <form action= "dialog">
-        <p> showing modal </p>
+        <form method = "dialog">
+       <p> {{ currentContact.id }} </p>
+        <p> {{ currentContact.first_name }} </p>
+        <p> {{ currentContact.last_name }} </p>
+        <p> {{ currentContact.email }} </p>
+        <p> {{ currentContact.phone_number }} </p>
+        <p> {{ currentContact.image }} </p>
+        <button>Close</button>
         </form>
       </dialog>
     </div>
