@@ -9,8 +9,14 @@
       {{ contact.email }}
       {{ contact.phone_number }}
       {{ contact.image}}
+      <button v-on:click="contactsShow(contact)">click for more info</button>
       </p>
-
+      <hr>
+      <dialog id = "contact-details">
+        <form action= "dialog">
+        <p> showing modal </p>
+        </form>
+      </dialog>
     </div>
   </div>
 </template>
@@ -28,9 +34,12 @@ export default {
       test: "testing",
       contacts: "",
       toggleContacts: false,
+      currentContact: "",
     };
   },
-  created: function () {},
+  created: function () {
+    this.contactsIndex();
+  },
   methods: {
     contactsIndex: function () {
       axios.get("http://localhost:3000/api/contacts").then((response) => {
@@ -38,6 +47,11 @@ export default {
         this.contacts = response.data;
         this.toggleContacts = !this.toggleContacts;
       });
+    },
+    contactsShow: function (theContact) {
+      this.currentContact = theContact;
+      console.log(theContact);
+      document.querySelector("#contact-details").showModal();
     },
   },
 };
