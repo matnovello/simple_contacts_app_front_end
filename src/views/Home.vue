@@ -4,7 +4,7 @@
     <button v-on:click="contactsIndex">toggle index</button>
     <div v-for= "contact in contacts" v-if="toggleContacts"> 
       <p> {{ contact.id }} 
-      {{ contact.first_name }}
+      {{ contact.first_name }} 
       {{ contact.last_name }}
       {{ contact.email }}
       {{ contact.phone_number }}
@@ -14,17 +14,26 @@
       <hr>
       <dialog id = "contact-details">
         <form method = "dialog">
-       <p> {{ currentContact.id }} </p>
-        <p> {{ currentContact.first_name }} </p>
-        <p> {{ currentContact.last_name }} </p>
+       <p> {{ currentContact.id }} - 
+        {{ currentContact.first_name }} {{ currentContact.last_name }} </p>
         <p> {{ currentContact.email }} </p>
         <p> {{ currentContact.phone_number }} </p>
         <p> {{ currentContact.image }} </p>
         <button>Close</button>
         </form>
       </dialog>
-    </div>
   </div>
+         <div> 
+        <h2> Create a new contact </h2>
+        <input v-model = "newContactFirstName" type = "text" placeholder="first_name">
+        <input v-model = "newContactLastName" type = "text" placeholder="last_name">
+        <input v-model = " newContactEmail" type = "text" placeholder="email">
+        <input v-model = " newContactPhoneNumber" type = "text" placeholder="phone number">
+        <input v-model = "newContactImage" type = "text" placeholder="image">
+        <button v-on:click="contactsCreate">create contact</button>
+        </div>
+        
+    </div>
 </template>
 
 <style>
@@ -41,6 +50,11 @@ export default {
       contacts: "",
       toggleContacts: false,
       currentContact: "",
+      newContactFirstName: "",
+      newContactLastName: "",
+      newContactEmail: "",
+      newContactPhoneNumber: "",
+      newContactImage: "",
     };
   },
   created: function () {
@@ -58,6 +72,18 @@ export default {
       this.currentContact = theContact;
       console.log(theContact);
       document.querySelector("#contact-details").showModal();
+    },
+    contactsCreate: function () {
+      var params = {
+        first_name: this.newContactFirstName,
+        last_name: this.newContactLastName,
+        phone_number: this.newContactPhoneNumber,
+        email: this.newContactEmail,
+        image: this.newContactImage,
+      };
+      axios.post("http://localhost:3000/api/contacts", params).then((response) => {
+        console.log(response.data);
+      });
     },
   },
 };
