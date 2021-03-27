@@ -15,12 +15,14 @@
       <hr>
       <dialog id = "contact-details">
         <form method = "dialog">
-       <p> {{ currentContact.id }} - 
-        {{ currentContact.first_name }} {{ currentContact.last_name }} </p>
-        <p> {{ currentContact.email }} </p>
-        <p> {{ currentContact.phone_number }} </p>
-        <p> {{ currentContact.image }} </p>
+       <p> {{ currentContact.id }}</p>
+       <input type = text v-model="currentContact.first_name" placeholder="currentContact.first_name">  </p>
+       <p> <input type = text v-model="currentContact.last_name" placeholder="currentContact.last_name"> </p>
+        <p> <input type = text v-model="currentContact.email" placeholder="currentContact.email"> </p>
+        <p> <input type = text v-model="currentContact.phone_number" placeholder="currentContact.phone_number"> </p>
+        <p> <input type = text v-model="currentContact.image" placeholder="currentContact.image"> </p>
         <button>Close</button>
+        <button v-on:click="contactsUpdate(contact)">update</button>
         </form>
       </dialog>
   </div>
@@ -81,12 +83,20 @@ export default {
         email: this.newContactEmail,
         image: this.newContactImage,
       };
+
       axios.post("http://localhost:3000/api/contacts", params).then((response) => {
         console.log(response.data);
       });
     },
 
     contactsUpdate: function (theContact) {
+      var params = {
+        first_name: this.currentContact.first_name,
+        last_name: this.currentContact.last_name,
+        phone_number: this.currentContact.phone_number,
+        email: this.currentContact.email,
+        image: this.currentContact.image,
+      };
       axios.patch("http://localhost:3000/api/contacts/" + theContact.id, params).then((response) => {
         console.log(response.data);
         console.log("contact updated");
