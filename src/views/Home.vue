@@ -10,6 +10,7 @@
       {{ contact.phone_number }}
       {{ contact.image}}
       <button v-on:click="contactsShow(contact)">click for more info</button>
+      <button v-on:click="contactsDestroy(contact)">Delete a contact</button>
       </p>
       <hr>
       <dialog id = "contact-details">
@@ -32,8 +33,7 @@
         <input v-model = "newContactImage" type = "text" placeholder="image">
         <button v-on:click="contactsCreate">create contact</button>
         </div>
-        
-    </div>
+  </div>
 </template>
 
 <style>
@@ -82,6 +82,18 @@ export default {
         image: this.newContactImage,
       };
       axios.post("http://localhost:3000/api/contacts", params).then((response) => {
+        console.log(response.data);
+      });
+    },
+
+    contactsUpdate: function (theContact) {
+      axios.patch("http://localhost:3000/api/contacts/" + theContact.id, params).then((response) => {
+        console.log(response.data);
+        console.log("contact updated");
+      });
+    },
+    contactsDestroy: function (theContact) {
+      axios.delete("http://localhost:3000/api/contacts/" + theContact.id).then((response) => {
         console.log(response.data);
       });
     },
